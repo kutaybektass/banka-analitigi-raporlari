@@ -54,22 +54,18 @@ def interest_check(type, status):
         return random.uniform(2, 5)
     
 def date_check(status, customer_birth_date):
-    """Generate realistic dates based on account status and customer age"""
     today = date.today()
     min_opening = customer_birth_date + timedelta(days=18*365)
     
     if status == 'Closed':
-        # Closed accounts: opened in past, closed at least 30 days ago
+        
         max_opening = today - timedelta(days=30)
         
-        # Ensure there's a valid date range
         if min_opening >= max_opening:
-            # Customer too young, make them older
-            min_opening = max_opening - timedelta(days=365*5)  # 5 years earlier
+            min_opening = max_opening - timedelta(days=365*5)  
         
         opening_date = fake.date_between(start_date=min_opening, end_date=max_opening)
         
-        # Last transaction before closing
         days_opened = (today - opening_date).days
         if days_opened > 1:
             last_transaction = fake.date_between(
@@ -77,21 +73,19 @@ def date_check(status, customer_birth_date):
                 end_date=opening_date + timedelta(days=random.randint(1, days_opened))
             )
         else:
-            last_transaction = opening_date  # Closed same day opened
+            last_transaction = opening_date  
         
-    else:  # Open or Frozen
+    else:  
         opening_date = fake.date_between(start_date=min_opening, end_date=today)
         days_since_opening = (today - opening_date).days
         
         if status == 'Frozen':
-            # For frozen accounts, transaction happened after opening
             if days_since_opening >= 30:
                 last_transaction = fake.date_between(
                     start_date=opening_date + timedelta(days=30),
                     end_date=today
                 )
             else:
-                # Account frozen shortly after opening
                 if days_since_opening > 1:
                     last_transaction = fake.date_between(
                         start_date=opening_date,
@@ -108,9 +102,7 @@ def date_check(status, customer_birth_date):
     
     return opening_date, last_transaction
 
-# === MAIN GENERATOR FUNCTION ===
 def generate_accounts(num_accounts, customer_ids, customer_birth_dates):
-    """Generate and insert account data"""
     conn = mysql.connector.connect(
         host='localhost', 
         user='root', 
@@ -133,16 +125,13 @@ def generate_accounts(num_accounts, customer_ids, customer_birth_dates):
     accounts_per_customer = {}
     
     for i in range(num_accounts):
-        # Pick a random customer
         idx = random.randint(0, len(customer_ids) - 1)
         customer_id = customer_ids[idx]
         customer_birth_date = customer_birth_dates[idx]
         
-        # Track accounts per customer
         if customer_id not in accounts_per_customer:
             accounts_per_customer[customer_id] = 0
         
-        # Account type based on how many accounts customer already has
         if accounts_per_customer[customer_id] == 0:
             account_type = random.choices(
                 ['Checking', 'Savings', 'Money Market', 'CD'],
@@ -154,25 +143,20 @@ def generate_accounts(num_accounts, customer_ids, customer_birth_dates):
                 weights=[20, 30, 20, 15, 15]
             )[0]
         
-        # Account status
         account_status = random.choices(
             ['Open', 'Closed', 'Frozen'],
             weights=[85, 10, 5]
         )[0]
         
-        # Generate dates using the customer's birth date
         opening_date, last_transaction = date_check(account_status, customer_birth_date)
         
-        # Generate other fields using YOUR functions
         balance = round(balance_check(account_type, account_status), 2)
         overdraft_limit = round(overdraft_check(account_type), 2)
         interest_rate = round(interest_check(account_type, account_status), 3)
         
-        # For closed accounts, no recent transactions
         if account_status == 'Closed':
             last_transaction = None
         
-        # Insert the account
         cursor.execute(insert_sql, (
             str(uuid4()),
             customer_id,
@@ -187,17 +171,11 @@ def generate_accounts(num_accounts, customer_ids, customer_birth_dates):
         
         accounts_per_customer[customer_id] += 1
         
-        # Progress indicator
-        if i % 100 == 0:
-            print(f"Generated {i} accounts...")
-            conn.commit()
     
     conn.commit()
     cursor.close()
     conn.close()
-    print(f"✅ Successfully generated {num_accounts} accounts!")
 
-# === RUN IT ===
 if __name__ == "__main__":
-    # Pass the customer data to the function
+
     generate_accounts(10000, customer_ids, customer_birth_dates)
