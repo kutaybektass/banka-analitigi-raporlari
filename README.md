@@ -20,7 +20,7 @@ Bütün veriler yazılım programı aracılığıyla oluşturulmuş olup, verile
 ## Ana Tablolar
 
 * customers — müşteri bilgileri ve sınıflandırma
-* accounts — müşteri hesapları ve hesap tipleri (Çek hesabı, Vadeli hesap, Birikim hesabı, Kredi hesabı, Para piyasası heasbı)
+* accounts — müşteri hesapları ve hesap tipleri (Çek hesabı, Vadeli hesap, Birikim hesabı, Kredi hesabı, Para piyasası hesabı)
 * transactions — para transfer işlemleri
 * loans — kredi portföyü detayları
 
