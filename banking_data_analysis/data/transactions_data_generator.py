@@ -76,22 +76,18 @@ all_timestamps = time_check(opening_dates * 2)
 
 
 for i in range(7500):
-    # Pick random account
     idx = random.randint(0, len(account_ids) - 1)
     account_id = account_ids[idx]
     opening_date = opening_dates[idx]
-    
-    # Generate timestamp AFTER opening
-    days_after = random.randint(1, 365)  # 1-365 days after opening
+
+    days_after = random.randint(1, 365)  
     transaction_date = opening_date + timedelta(days=days_after)
     
-    # Add random time
     transaction_timestamp = f"{transaction_date} {random.randint(0,23):02d}:{random.randint(0,59):02d}:{random.randint(0,59):02d}"
     
-    # Generate transaction
     cursor.execute(insert_sql, (
         str(uuid4()),
-        account_id,  # Use the SAME account for this timestamp
+        account_id,  
         random.choices(['Deposit', 'Withdrawal', 'Transfer', 'Payment', 'Fee'], weights=[25, 25, 15, 30, 5])[0],
         random.triangular(1000, 20000, 7500),
         transaction_timestamp,
@@ -102,9 +98,7 @@ for i in range(7500):
         random.triangular(500, 10000, 3250)
     ))
     
-    if i % 1000 == 0:
-        print(f"Generated {i} transactions...")
-
 conn.commit()
 cursor.close()
 conn.close()
+
