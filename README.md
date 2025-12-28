@@ -47,6 +47,7 @@ Risk seviyeleri:
 * Low Risk
 * Medium Risk
 * High Risk
+
 olmak üzere üç sınıfa ayrılmıştır.
 
 ## Değerlendirmeye Alınan Risk Sinyalleri
