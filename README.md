@@ -110,6 +110,20 @@ Hedef: Müşteri kaybı kategorilerine göre riskleri ölçmek
 <img width="394" height="89" alt="resim" src="https://github.com/user-attachments/assets/1d251b74-de63-425b-8ef5-93b1685ef015" />
 
 
+# Kısıtlamalar
+* Yapay veri üstünde çalışıldı
+* Finansal mantık basitleştirildi
+
+Bu kısıtlamalar, SQL analizine ve çıkarım yapmaya odaklanılması için kasıtlı olarak yapılmıştır. 
+
+# Sonuç
+Bu projede şunlar amaçlanmıştır:
+
+* İş sorularını SQL'e çevirmek
+* Ham verilerden analitik sinyaller tasarlamak
+
+**Bu bir portföy sergileme projesidir, üretim amaçlı bir finansal sistem değildir.**
+
 
 
 
