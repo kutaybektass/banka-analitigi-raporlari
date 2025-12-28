@@ -36,7 +36,7 @@ Hedef: Şüpheli transferleri tespit etmek
 * COUNT() OVER (PARTITION BY ... RANGE BETWEEN INTERVAL ...)
 * Zamana bağlı pencere fonksiyonları (Window functions)
 
-### Not: 
+### Not
 Kısıtlamalara uyan hiçbir veri bulunamadığı için, sorgulama herhangi bir sonuç göstermedi.
 
 # İkinci Analiz: Kredi Risk Değerlendirmesi
@@ -74,6 +74,41 @@ Hedef: Hangi bankacılık ürünlerinin yapısal olarak para kazandırdığını
 * Faiz davranışına dayalı bir karlılık sistemi oluşturuldu
 * Kredilerdeki faizler: Gelir
 * Mevduat ürünleri (Birikim, Vadeli ve Para Piyasası hesapları): Gider
+
+### Not
+Buradaki amaç kar hesaplamak değil, farklı hesap türlerinin bankaya olan gelir katkısını karşılaştırmaktır.
+
+<img width="312" height="106" alt="resim" src="https://github.com/user-attachments/assets/6489bd66-a34c-4465-9250-89e6fa4ae742" />
+
+# Dördüncü Analiz: Müşteri Kaybı Tespiti
+Hedef: Ayrılma riski olan müşterileri belirlemek
+
+## Değerlendirmeye Alınan Sinyaller
+* En az bir adet hesabı kapalı veya dondurulmuş olan müşteriler
+* 30 gün içerisinde hiçbir transfer işlemi yapmamış müşteriler
+* Hesaplar arasındaki toplam parası 3000'den az olan müşteriler
+
+## Kategoriler
+* Partially Churned — en az bir adet hesabı kapalı veya dondurulmuş
+* High Risk — 30 gün boyunca hiç işlem yapmamış VE toplam parası 3000'den az
+* Medium Risk — 30 gün boyunca hiç işlem yapmamış VEYA toplam parası 3000'den az
+* Low Risk — diğer herkes
+
+### Not
+Bu analiz, çoktan ayrılmış müşterileri dahil etmeyip, ayrılma riski olan müşterileri kapsar. Partially Churned tam olarak burada devreye giriyor.
+
+<img width="790" height="837" alt="resim" src="https://github.com/user-attachments/assets/0a04678a-796b-43ab-ad9a-ea695b18b40d" />
+
+# Beşinci Analiz: Müşteri Kaybının Etkisi
+Hedef: Müşteri kaybı kategorilerine göre riskleri ölçmek
+
+## Yaklaşım
+* Her kayıp kategorisindeki müşteri sayıları hesaplandı
+* Riskte olan toplam miktar hesaplandı
+* Müşteri başına ortalama miktar hesaplandı
+
+<img width="394" height="89" alt="resim" src="https://github.com/user-attachments/assets/1d251b74-de63-425b-8ef5-93b1685ef015" />
+
 
 
 
